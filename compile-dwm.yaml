@@ -1,0 +1,11 @@
+---
+  - name: Ansible Noobie
+    hosts: localhost
+    tasks: 
+       - name: Compile DWM
+         make: 
+             chdir: /tmp/testing
+             target: all
+             file: /tmp/testing/Makefile
+         become: yes
+         become_user: coutinho

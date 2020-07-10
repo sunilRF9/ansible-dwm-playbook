@@ -1,0 +1,14 @@
+---
+  - name: Ansible Noobie
+    hosts: localhost
+    vars_files:
+       - secrets.yml
+    vars:
+       - destdir: /tmp/testing
+    tasks:
+       - name: Download Custom DWM
+         become: yes
+         become_user: coutinho
+         git:
+            repo: 'https://{{gituser}}:{{gitpass}}@github.com/sunilRF9/Custom-DWM-Build.git'
+            dest: "{{ destdir }}"

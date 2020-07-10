@@ -1,4 +1,4 @@
-- name: Package Installation - Update Pacman package cache
+- name: Update Pacman cache
   pacman:
     update_cache: true
   changed_when: false
@@ -8,11 +8,12 @@
     name: [
         'xorg-server',
         'xorg-xinit',
-        'neovim'
+        'neovim',
+        'htop'
     ]
     state: present
 
-- name: Package Installation - System Desktop
+- name: Desktop Packages
   package:
     name: [
         'dmenu',

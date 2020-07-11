@@ -1,0 +1,61 @@
+---
+  - name: Stage-1
+    hosts: localhost
+    vars_files:
+       - secrets.yml
+    vars:
+       - destdir: /tmp/.config
+    tasks:
+       - name: Downloading dotfiles
+         become: yes
+         become_user: coutinho
+         git:
+            repo: 'https://{{gituser}}:{{gitpass}}@github.com/sunilRF9/dots'
+            dest: "{{ destdir }}"
+
+  - name: Stage-2
+    hosts: localhost
+    vars_files:
+       - secrets.yml
+    vars:
+       - destdir: /tmp/dwm
+    tasks:
+       - name: Downloading DWM
+         become: yes
+         become_user: coutinho
+         git:
+            repo: 'https://{{gituser}}:{{gitpass}}@github.com/sunilRF9/Custom-DWM-Build.git'
+            dest: "{{ destdir }}"
+
+  - name: Stage-3
+    hosts: localhost
+    tasks: 
+       - name: Compiling dwm
+         make: 
+             chdir: /tmp/dwm
+             target: all
+             file: /tmp/dwm/Makefile
+         become: yes
+         become_user: coutinho
+
+  - name: Stage-4
+    hosts: localhost
+    tasks: 
+       - name: Compiling st
+         make: 
+             chdir: /tmp/dwm/st
+             target: all
+             file: /tmp/dwm/st/Makefile
+         become: yes
+         become_user: coutinho
+
+  - name: Stage-5
+    hosts: localhost
+    tasks:
+       - name: Copying xinitrc
+         become: yes
+         become_user: coutinho
+         copy:
+           src: /tmp/dwm/xinitrc
+           dest: /tmp/
+           mode: '0644'

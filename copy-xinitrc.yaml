@@ -1,0 +1,11 @@
+---
+  - name: Stage-5
+    hosts: localhost
+    tasks:
+       - name: Copying xinitrc
+         become: yes
+         become_user: coutinho
+         copy:
+           src: /etc/X11/xinit/xinitrc
+           dest: /tmp/
+           mode: '0644'

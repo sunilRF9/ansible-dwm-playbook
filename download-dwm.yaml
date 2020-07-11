@@ -1,14 +1,28 @@
 ---
-  - name: Ansible Noobie
+  - name: Stage-1
     hosts: localhost
     vars_files:
        - secrets.yml
     vars:
-       - destdir: /tmp/testing
+       - destdir: /tmp/dwm
     tasks:
-       - name: Download Custom DWM
+       - name: Downloading DWM
          become: yes
          become_user: coutinho
          git:
             repo: 'https://{{gituser}}:{{gitpass}}@github.com/sunilRF9/Custom-DWM-Build.git'
+            dest: "{{ destdir }}"
+
+  - name: Stage-2
+    hosts: localhost
+    vars_files:
+       - secrets.yml
+    vars:
+       - destdir: /tmp/.config
+    tasks:
+       - name: Downloading dotfiles
+         become: yes
+         become_user: coutinho
+         git:
+            repo: 'https://{{gituser}}:{{gitpass}}@github.com/sunilRF9/dots'
             dest: "{{ destdir }}"

@@ -1,11 +1,22 @@
 ---
-  - name: Ansible Noobie
+  - name: Stage-3
     hosts: localhost
     tasks: 
-       - name: Compile DWM
+       - name: Compiling dwm
          make: 
-             chdir: /tmp/testing
+             chdir: /tmp/dwm
              target: all
-             file: /tmp/testing/Makefile
+             file: /tmp/dwm/Makefile
+         become: yes
+         become_user: coutinho
+
+  - name: stage-4
+    hosts: localhost
+    tasks: 
+       - name: Compiling st
+         make: 
+             chdir: /tmp/dwm/st
+             target: all
+             file: /tmp/dwm/st/Makefile
          become: yes
          become_user: coutinho
